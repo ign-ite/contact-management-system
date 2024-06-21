@@ -155,3 +155,50 @@ def OnSelected(event):
 
     btn_updatecon = Button(ContactForm, text="Update", width=50, command=UpdateData)
     btn_updatecon.grid(row=6, columnspan=2, pady=10)
+
+
+def DeleteData():
+    if not tree.selection():
+        result = tkMessageBox.showwarning('', 'Please Select Something First!', icon="warning")
+    else:
+        result = tkMessageBox.askquestion('', 'Are you sure you want to delete this record?', icon="warning")
+        if result == 'yes':
+            curItem = tree.focus()
+            contents = (tree.item(curItem))
+            selecteditem = contents['values']
+            tree.delete(curItem)
+            conn = sqlite3.connect("pythontut.db")
+            cursor = conn.cursor()
+            cursor.execute("DELETE FROM `member` WHERE `mem_id` = %d" % selecteditem[0])
+            conn.commit()
+            cursor.close()
+            conn.close()
+
+
+def AddNewWindow():
+    global NewWindow
+    FIRSTNAME.set("")
+    LASTNAME.set("")
+    GENDER.set("")
+    AGE.set("")
+    ADDRESS.set("")
+    CONTACT.set("")
+    NewWindow = Toplevel()
+    NewWindow.title("Contact List")
+    width = 400
+    height = 300
+    screen_width = root.winfo_screenwidth()
+    screen_height = root.winfo_screenheight()
+    x = ((screen_width / 2) - 455) - (width / 2)
+    y = ((screen_height / 2) + 20) - (height / 2)
+    NewWindow.resizable(0, 0)
+    NewWindow.geometry("%dx%d+%d+%d" % (width, height, x, y))
+    if 'UpdateWindow' in globals():
+        UpdateWindow.destroy()
+    FormTitle = Frame(NewWindow)
+    FormTitle.pack(side=TOP)
+    ContactForm = Frame(NewWindow)
+    ContactForm.pack(side=TOP, pady=10)
+    RadioGroup = Frame(ContactForm)
+    Male = Radiobutton(RadioGroup, text="Male", variable=GENDER, value="Male", font=('arial', 14)).pack(side=LEFT)
+    Female = Radiobutton(RadioGroup, text="Female", variable=GENDER, value="Female", font=('arial', 14)).pack(side=LEFT)
