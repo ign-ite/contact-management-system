@@ -87,7 +87,7 @@ def UpdateData():
         AGE.set("")
         ADDRESS.set("")
         CONTACT.set("")
-ef OnSelected(event):
+def OnSelected(event):
     global mem_id, UpdateWindow
     curItem = tree.focus()
     contents =(tree.item(curItem))
@@ -116,3 +116,42 @@ ef OnSelected(event):
     UpdateWindow.geometry("%dx%d+%d+%d" % (width, height, x, y))
     if 'NewWindow' in globals():
         NewWindow.destroy()
+
+
+    FormTitle = Frame(UpdateWindow)
+    FormTitle.pack(side=TOP)
+    ContactForm = Frame(UpdateWindow)
+    ContactForm.pack(side=TOP, pady=10)
+    RadioGroup = Frame(ContactForm)
+    Male = Radiobutton(RadioGroup, text="Male", variable=GENDER, value="Male", font=('arial', 14)).pack(side=LEFT)
+    Female = Radiobutton(RadioGroup, text="Female", variable=GENDER, value="Female", font=('arial', 14)).pack(side=LEFT)
+
+    lbl_title = Label(FormTitle, text="Updating Contacts", font=('arial', 16), bg="orange",  width = 300)
+    lbl_title.pack(fill=X)
+    lbl_firstname = Label(ContactForm, text="Firstname", font=('arial', 14), bd=5)
+    lbl_firstname.grid(row=0, sticky=W)
+    lbl_lastname = Label(ContactForm, text="Lastname", font=('arial', 14), bd=5)
+    lbl_lastname.grid(row=1, sticky=W)
+    lbl_gender = Label(ContactForm, text="Gender", font=('arial', 14), bd=5)
+    lbl_gender.grid(row=2, sticky=W)
+    lbl_age = Label(ContactForm, text="Age", font=('arial', 14), bd=5)
+    lbl_age.grid(row=3, sticky=W)
+    lbl_address = Label(ContactForm, text="Address", font=('arial', 14), bd=5)
+    lbl_address.grid(row=4, sticky=W)
+    lbl_contact = Label(ContactForm, text="Contact", font=('arial', 14), bd=5)
+    lbl_contact.grid(row=5, sticky=W)
+
+    firstname = Entry(ContactForm, textvariable=FIRSTNAME, font=('arial', 14))
+    firstname.grid(row=0, column=1)
+    lastname = Entry(ContactForm, textvariable=LASTNAME, font=('arial', 14))
+    lastname.grid(row=1, column=1)
+    RadioGroup.grid(row=2, column=1)
+    age = Entry(ContactForm, textvariable=AGE, font=('arial', 14))
+    age.grid(row=3, column=1)
+    address = Entry(ContactForm, textvariable=ADDRESS, font=('arial', 14))
+    address.grid(row=4, column=1)
+    contact = Entry(ContactForm, textvariable=CONTACT, font=('arial', 14))
+    contact.grid(row=5, column=1)
+
+    btn_updatecon = Button(ContactForm, text="Update", width=50, command=UpdateData)
+    btn_updatecon.grid(row=6, columnspan=2, pady=10)
